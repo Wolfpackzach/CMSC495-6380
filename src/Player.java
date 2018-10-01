@@ -30,11 +30,11 @@ public class Player {
     this.rank = rank;
   }
 
-  void setwinCount(int winCount) {
+  void setWinCount(int winCount) {
     this.winCount = winCount;
   }
 
-  void setlossCount(int lossCount) {
+  void setLossCount(int lossCount) {
     this.lossCount = lossCount;
   }
 

@@ -1,4 +1,12 @@
-
+/*
+ * File Name:		GUI.java
+ * Class:			CMSC 495-6380
+ * Group:			Group 6
+ * Authors:			Sheldon Jeffers, Stephen Parsons
+ * Date:			9/30/2018
+ * Purpose:			This class digests the data input into the program and parses it out to different parts of the program.
+ * 					It is also responsible for performing the operations to calculate victories and rankings for the games.
+ */
 import javax.swing.*;
 import javax.swing.text.*;
 import java.awt.*;              //for layout managers and more
@@ -27,9 +35,11 @@ public  static int j;
     public GUI() {
 
 	//no more than 4096 players - tennis math simulation  1vs1 not a team game//
-	player[] players = new player[4096];	
+	Player[] players = new Player[4096];	
 	for(int i=0;i<4096;i++)
-    	players[i] = new player();
+		//We need to have this for loop made after the input file is taken in, so we can send Scanner object to 
+		//Player constructor 
+    	players[i] = new Player();
 	//initialize object array
         this.j=0;
 
@@ -99,12 +109,11 @@ public  static int j;
 	System.out.println(j);
 
 	//set player name
-        players[j].setNo(no);
 	players[j].setName(name);
-	players[j].setWins(0);
-	players[j].setLosses(0);
+	players[j].setWinCount(0);
+	players[j].setLossCount(0);
         players[j].setRank(rank);
-        players[j].setGames(games);
+      //  players[j].setGames(games); 
 	j++;
 
 	}
