@@ -1,3 +1,8 @@
+/*This document is responsible for the Player java class for group 6's project to predict wins
+ * Author: Sheldon Jeffers, Will Krohn
+ * Version Number(dates): 1.0(9/29/18), 1.1(10/3/2018)[Current]
+ */
+
 class Player {
 
  private String name;
