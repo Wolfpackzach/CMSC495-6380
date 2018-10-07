@@ -1,5 +1,5 @@
 /*
- * File Name:   GUI.java
+ * File Name:   Game.java
  * Class:       CMSC 495-6380
  * Group:       Group 6
  * Authors:     Sheldon Jeffers and Joseph "Zach" Johnson
