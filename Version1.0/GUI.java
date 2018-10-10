@@ -4,24 +4,23 @@
  * Group:       Group 6
  * Authors:     Sheldon Jeffers and Stephen Parsons
  * Purpose:     GUI.java creates and shows the GUI application that is displayed to the user. It stores the data 
- *              from the players, provide textfields for user input and buttons that provide actions for the user. 
+ *              from the players, provide text fields for user input and buttons that provide actions for the user. 
  *              It also displays the players details, along with the results from simulated games weekly and seasonly.
  * 
  * Revision:
- * Version Number(dates): 1.0(9/29/18) - Created the GUI design, added textfields,  -   Contributor: Sheldon Jeffers
+ * Version Number(dates): 1.0(9/29/18) - Created the GUI design, added text fields,  -   Contributor: Sheldon Jeffers
  *                                          buttons, display field.
  * Version Number(dates): 1.1(10/06/18) - GUI functionality, Edit/Status buttons, action    -   Contributor: Sheldon Jeffers
  *                                          listeners for buttons. Added comments.
  * Version Number(dates): 1.1(10/06/18) - GUI functionality, Implemented file chooser,  -   Contributor: Stephen Parsons
  *                                          Added comments.
+ * Version Number(dates): 1.2(10/10/18) - Removed unused lines, corrected spelling, reworked code   -   Contributor: Sheldon / Stephen
  */
 
+
 import javax.swing.*;
-import javax.swing.text.*;
 import java.awt.*;              
-import java.awt.event.*;   
 import java.io.*;
-import java.util.*;  
 import java.io.IOException;
 import java.awt.BorderLayout;
 import java.awt.Insets;
@@ -34,30 +33,36 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import java.util.Random;
 
+
+@SuppressWarnings("serial")
 public class GUI extends JPanel {
-JTextField textField;
-JTextField textField2;
-JTextField textField3;
-JTextField textField4;
-JTextArea textArea;
-//max number of tennis Players allocated at current session
-public  static int j;  
-//stores number of current week , during weekly match simulation
-public  static int week;
+  
+  JTextField textField;
+  JTextField textField2;
+  JTextField textField3;
+  JTextField textField4;
+  JTextArea textArea;
 
+  //max number of tennis Players allocated at current session
+  public  static int j;
+  
+  //stores number of current week , during weekly match simulation
+  public  static int week;
+
+    @SuppressWarnings("static-access")
     public GUI() {
+      
 	//no more than 4096 Players for  tennis match simulation (1vs1game)
 	Player[] Players = new Player[4096];	
 	for(int i=0;i<4096;i++)
     	Players[i] = new Player();
         this.j=0;
-	this.week=1;
-	Game tennis_game= new Game();
+        this.week=1;
+        Game tennis_game= new Game();
   
         setLayout(new BorderLayout());
-	//text field for entering number of Players 
+        //text field for entering number of Players 
         textField = new JTextField(30);
         //text field for entering tennis Player name
         textField2 = new JTextField(30);
@@ -65,14 +70,14 @@ public  static int week;
         textField3 = new JTextField(30);
         //text field for entering games per season
         textField4 = new JTextField(30);
+        
         //button for adding manually Player details
         JButton button0 = new JButton();
         button0.setText("ADD");
         button0.setCursor(Cursor.getDefaultCursor());
         button0.setMargin(new Insets(1,1,1,1));
-        /* ADD button listener-
-	verifies that data entered by user are legit and if so input data inside the system
-	*/ 
+        
+    /* ADD button listener-verifies that data entered by user are legit and if so input data inside the system */ 
 	button0.addActionListener(
   	new ActionListener() {
     	public void actionPerformed(ActionEvent e) {
@@ -315,19 +320,23 @@ public  static int week;
 		if (new_rates[0] > Players[m].getRank() ){
 		Players[m].setWins(Players[m].getWins()+1);
 		res=res+"(Win) "+Players[m].getName()+" VS  "+Players[m+k].getName()+ " (Loss) \n";}
+		
 		//case first Player lost , hence update losses
 		else{
 		Players[m].setLosses(Players[m].getLosses()+1);
 		res=res+"(Loss) "+Players[m].getName()+" VS  "+Players[m+k].getName()+ " (Win) \n";}
+		
 		//update first Player rank
 		Players[m].setRank(new_rates[0]);
 
 		//second Player won update wins
 		if (new_rates[1] > Players[m+k].getRank() )
 		Players[m+k].setWins(Players[m+k].getWins()+1);
-		else	
+		else
+		  
 		//second Player lost update losses		
 		Players[m+k].setLosses(Players[m+k].getLosses()+1);
+		
 		//update second Player rank
 		Players[m+k].setRank(new_rates[1]);
 				}
@@ -351,19 +360,21 @@ public  static int week;
     	public void actionPerformed(ActionEvent e) {
    
         JFileChooser fc;
+        
 	//Create a file chooser
-    	fc = new JFileChooser();
+    fc = new JFileChooser();
 	int returnVal = fc.showOpenDialog(null);
 	File file=null;
+	
 	//open the file
-        if (returnVal == JFileChooser.APPROVE_OPTION) {
+	if (returnVal == JFileChooser.APPROVE_OPTION) {
          file = fc.getSelectedFile();
          System.out.println("File to be open: " + file.getName() + ". \n" );}
 	else {
         System.out.println("File opening cancelled\n");
         return;
           }
-       	//check file extension ,  only  .txt and .csv are allowed
+    //check file extension,  only  .txt and .csv are allowed
  	String extension = null;
     	String s = file.getName();
     	int i = s.lastIndexOf('.');
@@ -378,12 +389,11 @@ public  static int week;
             	type = "Comma separated values file";
         }
 	else {  type = "Invalid";  }    		
-	// whether extension is valid open the file
+        // whether extension is valid open the file
         if (extension.equals("txt")||extension.equals("csv") ) {
 	       try {
 			FileReader fileReader = new FileReader(file);
 			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			StringBuffer stringBuffer = new StringBuffer();
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				
@@ -393,8 +403,9 @@ public  static int week;
         		 String name3=null;
         		 float rank3=0;
         		 int games3=0;
-			 boolean correct;
-			 correct=false;
+        		 boolean correct;
+        		 correct=false;
+        		 
 		// do some input validation , make sure that imported line contains legit data
 		// if line data is not valid skip to next line
   		try{  	
@@ -413,34 +424,34 @@ public  static int week;
 	          	 correct=false;
 	          }
 	
-        if (correct==true){
-	 textArea.setText("Data imported from file");
+  		if (correct==true){
+  		  textArea.setText("Data imported from file");
 
-	 //update Players array with the imported data
-         Players[j].setNo(no3);
-         Players[j].setName(name3);
-         Players[j].setWins(0);
-         Players[j].setLosses(0);
-         Players[j].setRank(rank3);
-         Players[j].setGames(games3);
-         j++;
+  		  //update Players array with the imported data
+  		  Players[j].setNo(no3);
+          Players[j].setName(name3);
+          Players[j].setWins(0);
+          Players[j].setLosses(0);
+          Players[j].setRank(rank3);
+          Players[j].setGames(games3);
+          j++;
 
-	 }
-       else {
-         textArea.setText("Data incorrect, skip to next line");
-      	}
-		}
-	fileReader.close();
+  		}
+         else {
+           textArea.setText("Data incorrect, skip to next line");
+         }
+			}
+			fileReader.close();
 
-		} catch (IOException ef) {
-			ef.printStackTrace();
-		}
-	  }
-      else {  textArea.setText("Invalid FileType , please choose only .txt or .csv files");}
-	}
-  			});
+	        } catch (IOException ef) {
+	          ef.printStackTrace();
+	        }
+        }
+        else {  textArea.setText("Invalid FileType , please choose only .txt or .csv files");}
+    	}
+  			 });
         
-	//create labels for the GUI components
+	    //create labels for the GUI components
         JLabel textFieldLabel = new JLabel("Number of Player" + ": ");
         textFieldLabel.setLabelFor(textField);
         JLabel textFieldLabel2 = new JLabel("Name of Player" + ": ");
@@ -449,6 +460,7 @@ public  static int week;
         textFieldLabel3.setLabelFor(textField3);
         JLabel textFieldLabel4 = new JLabel("Number of Games in a Season" + ": ");
         textFieldLabel4.setLabelFor(textField4);
+        
         JLabel btnALabel = new JLabel("");
         btnALabel.setLabelFor(buttonA);
         JLabel btn0Label = new JLabel("Insert Player details" + ": ");
@@ -463,53 +475,56 @@ public  static int week;
         btn2Label.setLabelFor(button2);
         JLabel btn3Label = new JLabel("Open File");
         btn3Label.setLabelFor(button3);
+        
         //position the text controls and the labels.
         JPanel textControlsPane = new JPanel();
         GridBagLayout gridbag = new GridBagLayout();
         GridBagConstraints c = new GridBagConstraints();
         textControlsPane.setLayout(gridbag);
-	//create some array of labels , buttons , textfields
+        
+        //create some array of labels , buttons , textfields
         JLabel[] labels = {textFieldLabel, textFieldLabel2, textFieldLabel3, textFieldLabel4,btn0Label,btn01Label,btn02Label ,btn3Label,btnALabel,btn1Label,btn2Label};
         JTextField[] textFields = {textField, textField2, textField3, textField4};
         JButton[] buttons= {button0, button01, button02,button3, buttonA,button1, button2 };
-	//add GUI components ( e.g text fields , buttons)        
-	addGUIComponents(buttons,labels, textFields, gridbag, textControlsPane);
-        c.gridwidth = GridBagConstraints.REMAINDER;
-        c.anchor = GridBagConstraints.WEST;
-        c.weightx = 1.0;
-	//configure the border
-        textControlsPane.setBorder(
-          BorderFactory.createCompoundBorder(
-           BorderFactory.createTitledBorder("SIMULATION OPTIONS"),
-         BorderFactory.createEmptyBorder(50,50,50,50)));
+        
+        //add GUI components ( e.g text fields , buttons)        
+        addGUIComponents(buttons,labels, textFields, gridbag, textControlsPane);
+          c.gridwidth = GridBagConstraints.REMAINDER;
+          c.anchor = GridBagConstraints.WEST;
+          c.weightx = 1.0;
+          //configure the border
+          textControlsPane.setBorder(
+              BorderFactory.createCompoundBorder(
+              BorderFactory.createTitledBorder("SIMULATION OPTIONS"),
+              BorderFactory.createEmptyBorder(50,50,50,50)));
 
-        //create a text areafor displaying output back to the user
+        //create a text area for displaying output back to the user
         textArea = new JTextArea("This is an editable JTextArea to OUTPUT MATCHES SIMULATION RESULTS "    );
         textArea.setFont(new Font("Serif", Font.ITALIC, 16));
         textArea.setLineWrap(true);
         textArea.setWrapStyleWord(true);
-	//create a scroll pane
+        
+        //create a scroll pane
         JScrollPane areaScrollPane = new JScrollPane(textArea);
-        areaScrollPane.setVerticalScrollBarPolicy(
-                        JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        areaScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         areaScrollPane.setPreferredSize(new Dimension(250, 250));
         areaScrollPane.setBorder(
             BorderFactory.createCompoundBorder(
-                BorderFactory.createCompoundBorder(
-                                BorderFactory.createTitledBorder("SIMULATION OUTPUT"),
-                                BorderFactory.createEmptyBorder(5,5,5,5)),
+            BorderFactory.createCompoundBorder(
+            BorderFactory.createTitledBorder("SIMULATION OUTPUT"),
+            BorderFactory.createEmptyBorder(5,5,5,5)),
                 areaScrollPane.getBorder()));
+        
         //put all the components together
         JPanel leftPane = new JPanel(new BorderLayout());
         leftPane.add(textControlsPane, 
-                     BorderLayout.PAGE_START);
+        BorderLayout.PAGE_START);
         leftPane.add(areaScrollPane,
-                     BorderLayout.CENTER);
+        BorderLayout.CENTER);
         add(leftPane, BorderLayout.CENTER);  
 
     }
 
-    
     private void addGUIComponents(JButton[] buttons,JLabel[] labels,
                                   JTextField[] textFields,
                                   GridBagLayout gridbag,
@@ -517,7 +532,7 @@ public  static int week;
         GridBagConstraints c = new GridBagConstraints();
         c.anchor = GridBagConstraints.EAST;
 
-        //add the textfields along their labes
+        //add the textfields along with their labels
         for (int i = 0; i < 4; i++) {
             c.gridwidth = GridBagConstraints.RELATIVE; 
             c.fill = GridBagConstraints.NONE;      
@@ -537,11 +552,11 @@ public  static int week;
           c.weightx = 0.0;                       
           container.add(labels[i+4], c);
           //add buttons//
-	  c.gridwidth = GridBagConstraints.REMAINDER;    
+          c.gridwidth = GridBagConstraints.REMAINDER;    
           c.fill = GridBagConstraints.HORIZONTAL;
           c.weightx = 2.0;
           container.add(buttons[i], c);
-	}
+        }
     }
 
     /* create and show the GUI */
